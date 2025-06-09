@@ -60,9 +60,14 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 
 # Alignment
-AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: false
-AlignConsecutiveDeclarations: false
+AlignAfterOpenBracket: BlockIndent
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveBitFields: Consecutive
+AlignConsecutiveDeclarations:
+    Enabled: true
+    
+AlignConsecutiveMacros: Consecutive
 AlignEscapedNewlines: Right
 AlignOperands: true
 AlignTrailingComments: true
@@ -94,7 +99,7 @@ DerivePointerAlignment: false
 PointerAlignment: Left
 
 # Namespaces
-NamespaceIndentation: None
+NamespaceIndentation: All
 CompactNamespaces: false
 
 # Access modifiers
