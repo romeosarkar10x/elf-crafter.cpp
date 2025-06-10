@@ -5,14 +5,14 @@
 
 namespace elf_crafter
 {
-    struct relocation_entry
+    struct relocation
     {
     private:
         elf32_address offset;
         elf32_word    info;
     };
 
-    struct relocation_entry_with_addend
+    struct relocation_with_addend
     {
     private:
         elf32_address     offset;
