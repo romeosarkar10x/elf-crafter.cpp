@@ -7,7 +7,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 project(elf-crafter.cpp)
 
-file(GLOB_RECURSE sources "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
-add_executable(elf-crafter.exe ${sources})
+add_executable(elf_crafter.exe ${SOURCES})
 
+target_include_directories(elf_crafter.exe
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/inc
+)
