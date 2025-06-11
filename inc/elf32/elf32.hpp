@@ -1,0 +1,47 @@
+#ifndef ELF_CRAFTER_ELF_HPP
+#define ELF_CRAFTER_ELF_HPP
+
+#include <unistd.h>
+#include <vector>
+
+#include "elf32/header/header_raw.hpp"
+#include "elf32/section_header_table/section_header.hpp"
+#include "elf32/string_table/string_table.hpp"
+#include "elf32/symbol_table/symbol_table.hpp"
+
+#ifdef PROJECT_NAMESPACE
+namespace PROJECT_NAMESPACE
+{
+#endif
+    namespace elf32
+    {
+        struct elf32
+        {
+            elf32(const char* pathname, bool write = false);
+
+            void open_file(const char* pathname, bool write = false);
+            void close_file();
+
+            void write_file();
+            void write_file(const char* pathname);
+
+            std::vector<section_header> get_section_headers() const;
+            section                     get_section(elf32_offset index) const;
+
+            const symbol_table get_symbol_table() const;
+            symbol_table       get_symbol_table();
+
+            const string_table get_string_table() const;
+            string_table       get_string_table();
+
+        private:
+            int m_file_descriptor{-1};
+
+            header_raw m_header;
+        };
+    } // namespace elf32
+#ifdef PROJECT_NAMESPACE
+} // namespace elf_crafter
+#endif
+
+#endif

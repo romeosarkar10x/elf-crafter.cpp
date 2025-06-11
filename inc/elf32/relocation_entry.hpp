@@ -1,7 +1,7 @@
 #ifndef ELF_CRAFTER_RELOCATION_ENTRY_HPP
 #define ELF_CRAFTER_RELOCATION_ENTRY_HPP
 
-#include "elf_types.hpp"
+#include "types.hpp"
 
 namespace elf_crafter
 {
