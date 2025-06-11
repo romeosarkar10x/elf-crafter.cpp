@@ -1,5 +1,6 @@
 {
     "editor.tabSize": 4,
+    "editor.detectIndentation": false,
 
     "[cpp]": {
         "editor.formatOnSave": true
