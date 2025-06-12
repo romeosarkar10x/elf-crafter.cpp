@@ -1,6 +1,8 @@
 #include <iostream>
 
+#include "elf32/elf32.hpp"
+
 int main()
 {
-    std::cout << "Hello world!" << std::endl;
+    elf_crafter::elf32::elf32("temp/hello.o");
 }

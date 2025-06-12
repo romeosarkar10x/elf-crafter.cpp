@@ -1,8 +1,10 @@
 #include <climits>
+#include <iostream>
 #include <stdexcept>
 #include <unistd.h>
 
 #include "elf32/header/header_raw.hpp"
+#include "elf32/header/identification_raw.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -44,20 +46,77 @@ namespace PROJECT_NAMESPACE
 
             std::byte* buffer = reinterpret_cast<std::byte*>(this);
 
-            size_t num_of_bytes_read    = 0;
-            size_t num_of_bytes_to_read = sizeof(header_raw);
+            size_t number_of_bytes_read    = 0;
+            size_t number_of_bytes_to_read = sizeof(header_raw);
 
-            while (num_of_bytes_to_read) {
-                num_of_bytes_read +=
-                    read(file_descriptor, buffer + num_of_bytes_read, num_of_bytes_to_read);
+            while (number_of_bytes_to_read) {
+                ssize_t current_number_of_bytes_read =
+                    read(file_descriptor, buffer + number_of_bytes_read, number_of_bytes_to_read);
 
-                if (num_of_bytes_read == 0) {
+                number_of_bytes_read += current_number_of_bytes_read;
+                number_of_bytes_to_read -= current_number_of_bytes_read;
+
+                if (number_of_bytes_read == 0) {
                     if (errno != EAGAIN) {
                         throw std::runtime_error("unexpected end of file!");
                     }
                 }
             }
+
+            new (&m_identification) identification_raw(buffer);
+
+            std::cout << (m_identification | stringifier()) << std::endl;
+
+            // TODO: Validate each field.
+            {
+                // Validate `machine`
+            }
+
+            {
+                // Validate `version`
+            }
+
+            {
+                // Validate `entry_point`
+            }
+
+            {
+                // Validate `program_header_offset`
+            }
+
+            {
+                // Validate `section_header_offset`
+            }
+
+            {
+                // Validate `flags`
+            }
+
+            {
+                // Validate `elf_header_size`
+            }
+
+            {
+                // Validate `program_header_entry_size`
+            }
+
+            {
+                // Validate `program_header_number_of_entries`
+            }
+
+            {
+                // Validate `section_header_entry_size`
+            }
+
+            {
+                // Validate `section_header_number_of_entries`
+            }
+
+            {
+                // Validate `section_name_string_table_index`
+            }
         }
+
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE
 }
