@@ -43,7 +43,7 @@ AlwaysBreakBeforeMultilineStrings: false
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLoopsOnASingleLine: true
-AllowShortCaseLabelsOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: false
 AllowShortBlocksOnASingleLine: Empty
 
 # Spacing
