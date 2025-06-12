@@ -31,7 +31,7 @@ namespace PROJECT_NAMESPACE
         }
 
     private:
-        uint16_t m_lon_indent_width;
+        uint16_t m_lon_indent_width = 4u;
 
         mutable uint16_t m_depth = 0u;
     };

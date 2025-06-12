@@ -6,7 +6,7 @@
 int main()
 {
     using namespace elf_crafter;
-    // elf_crafter::elf32::elf32("temp/hello.o");
+    elf_crafter::elf32::elf32("temp/hello.o");
 
     /*
     lon_string s("hello_world");

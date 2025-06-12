@@ -24,6 +24,8 @@ namespace PROJECT_NAMESPACE
                 HI_PROCESSOR_SPECIFIC,
             };
 
+            friend const lon_type* operator|(enum_object_type object_type, const lonifier& l);
+
             enum struct enum_machine_type : elf32_half
             {
                 NONE,
@@ -43,15 +45,19 @@ namespace PROJECT_NAMESPACE
                 RESERVED_16,
             };
 
+            friend const lon_type* operator|(enum_machine_type machine_type, const lonifier& l);
+
             header_raw();
             header_raw(int file_descriptor);
+
+            friend const lon_type* operator|(const header_raw& h_raw, const lonifier& l);
 
         private:
             identification_raw m_identification;
 
-            enum_object_type m_object_type;
-            elf32_half       m_machine;
-            elf32_word       m_version;
+            enum_object_type  m_object_type;
+            enum_machine_type m_machine;
+            elf32_word        m_version;
 
             elf32_address m_entry_point;
 

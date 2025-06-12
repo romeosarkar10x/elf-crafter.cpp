@@ -1,5 +1,7 @@
 #include "utility/stringifier.hpp"
 
+#include <stdexcept>
+
 #include "utility/lonifier/lon_type.hpp"
 
 #ifdef PROJECT_NAMESPACE
@@ -9,7 +11,12 @@ namespace PROJECT_NAMESPACE
 
     stringifier::stringifier() {}
 
-    stringifier::stringifier(uint16_t lon_indent_width) : m_lon_indent_width{lon_indent_width} {}
+    stringifier::stringifier(uint16_t lon_indent_width) : m_lon_indent_width{lon_indent_width}
+    {
+        if (lon_indent_width == 0u) {
+            throw std::runtime_error("invalid lon_indent_width supplied");
+        }
+    }
 
     uint16_t stringifier::get_lon_indent_width() const
     {

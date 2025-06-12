@@ -1,6 +1,7 @@
 #include "elf32/elf32.hpp"
 
 #include <fcntl.h>
+#include <iostream>
 #include <stdexcept>
 #include <unistd.h>
 
@@ -14,7 +15,9 @@ namespace PROJECT_NAMESPACE
         elf32::elf32(const char* const pathname, const bool write)
             : m_file_descriptor{open(pathname, write ? O_WRONLY | O_CREAT : O_RDONLY)},
               m_header{m_file_descriptor}
-        {}
+        {
+            std::cout << (m_header | lonifier() | stringifier()) << std::endl;
+        }
 
         void elf32::open_file(const char* const pathname, const bool write)
         {

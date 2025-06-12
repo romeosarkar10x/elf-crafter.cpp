@@ -1,5 +1,6 @@
 #include "elf32/header/identification_raw.hpp"
 
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 
@@ -12,6 +13,40 @@ namespace PROJECT_NAMESPACE
 #endif
     namespace elf32
     {
+        const lon_type* operator|(identification_raw::enum_file_class file_class, const lonifier& l)
+        {
+            switch (file_class) {
+            case identification_raw::enum_file_class::NONE:
+                return new lon_string("None");
+
+            case identification_raw::enum_file_class::CLASS_32:
+                return new lon_string("32-Bit");
+
+            case identification_raw::enum_file_class::CLASS_64:
+                return new lon_string("64-Bit");
+            }
+
+            throw std::runtime_error("invalid file_class");
+        }
+
+        const lon_type* operator|(
+            identification_raw::enum_data_encoding data_encoding, const lonifier& l
+        )
+        {
+            switch (data_encoding) {
+            case identification_raw::enum_data_encoding::NONE:
+                return new lon_string("None");
+
+            case identification_raw::enum_data_encoding::LITTLE_ENDIAN_ORDER:
+                return new lon_string("Little-endian");
+
+            case identification_raw::enum_data_encoding::BIG_ENDIAN_ORDER:
+                return new lon_string("Big-endian");
+            }
+
+            throw std::runtime_error("invalid data_encoding");
+        }
+
         identification_raw::identification_raw() {}
 
         identification_raw::identification_raw(std::byte* bytes)
@@ -108,31 +143,54 @@ namespace PROJECT_NAMESPACE
             return m_bytes[index];
         }
 
+        identification_raw::enum_file_class identification_raw::get_file_class() const
+        {
+            return static_cast<enum_file_class>(m_bytes[enum_identification_indexes::FILE_CLASS]);
+        }
+
+        identification_raw::enum_data_encoding identification_raw::get_data_encoding() const
+        {
+            return static_cast<enum_data_encoding>(
+                m_bytes[enum_identification_indexes::DATA_ENCODING]
+            );
+        }
+
+        enum_elf_version identification_raw::get_elf_version() const
+        {
+            return static_cast<enum_elf_version>(m_bytes[enum_identification_indexes::FILE_VERSION]
+            );
+        }
+
         const lon_type* operator|(const identification_raw& identification, const lonifier& l)
         {
             lon_object*        lo = new lon_object;
-            std::ostringstream ostringstream;
+            std::ostringstream magic;
 
-            ostringstream << std::hex
-                          << static_cast<uint32_t>(identification.get(
-                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_0
-                             ))
-                          << " ";
-            ostringstream << std::hex
-                          << static_cast<uint32_t>(identification.get(
-                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_1
-                             ))
-                          << " ";
-            ostringstream << std::hex
-                          << static_cast<uint32_t>(identification.get(
-                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_2
-                             ))
-                          << " ";
-            ostringstream << std::hex
-                          << static_cast<uint32_t>(identification.get(
-                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_3
-                             ))
-                          << " ";
+            magic << std::hex
+                  << static_cast<uint32_t>(identification.get(
+                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_0
+                     ))
+                  << " ";
+            magic << std::hex
+                  << static_cast<uint32_t>(identification.get(
+                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_1
+                     ))
+                  << " ";
+            magic << std::hex
+                  << static_cast<uint32_t>(identification.get(
+                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_2
+                     ))
+                  << " ";
+            magic << std::hex
+                  << static_cast<uint32_t>(identification.get(
+                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_3
+                     ))
+                  << " ";
+
+            lo->set_key("Magic", new lon_string(magic.str()));
+            lo->set_key("File class", identification.get_file_class() | l);
+            lo->set_key("Data encoding", identification.get_data_encoding() | l);
+            lo->set_key("File version", identification.get_elf_version() | l);
 
             return lo;
         }

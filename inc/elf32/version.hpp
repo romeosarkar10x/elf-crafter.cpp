@@ -3,6 +3,7 @@
 
 #include "config.hpp"
 #include "elf32/types.hpp"
+#include "utility/lonifier/lonifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -16,7 +17,9 @@ namespace PROJECT_NAMESPACE
             NONE,
             CURRENT,
         };
-    }
+
+        const lon_type* operator|(enum_elf_version elf_version, const lonifier& l);
+    } // namespace elf32
 
 #ifdef PROJECT_NAMESPACE
 }

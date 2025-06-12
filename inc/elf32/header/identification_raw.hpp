@@ -28,10 +28,6 @@ namespace PROJECT_NAMESPACE
                 SIZE_OF_IDENTIFICATION = 16u
             };
 
-            friend const std::string operator|(
-                enum_identification_indexes index, const stringifier& s
-            );
-
             enum struct enum_file_class : elf32_unsigned_char
             {
                 NONE,
@@ -39,7 +35,7 @@ namespace PROJECT_NAMESPACE
                 CLASS_64,
             };
 
-            friend const std::string operator|(enum_file_class file_class, const stringifier& s);
+            friend const lon_type* operator|(enum_file_class file_class, const lonifier& l);
 
             enum struct enum_data_encoding : elf32_unsigned_char
             {
@@ -48,9 +44,7 @@ namespace PROJECT_NAMESPACE
                 BIG_ENDIAN_ORDER, /* TODO: Implement big-endian data encoding format. */
             };
 
-            friend const std::string operator|(
-                enum_data_encoding data_encoding, const stringifier& s
-            );
+            friend const lon_type* operator|(enum_data_encoding data_encoding, const lonifier& l);
 
             identification_raw();
             identification_raw(std::byte* bytes);
@@ -70,6 +64,9 @@ namespace PROJECT_NAMESPACE
 
             enum_data_encoding get_data_encoding() const;
             void               set_data_encoding(enum_data_encoding data_encoding);
+
+            enum_elf_version get_elf_version() const;
+            void             set_elf_version(enum_elf_version elf_version);
 
             friend const lon_type* operator|(
                 const identification_raw& identification, const lonifier& l
