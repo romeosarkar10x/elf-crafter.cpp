@@ -1,5 +1,6 @@
 #include "elf32/header/identification_raw.hpp"
 
+#include <sstream>
 #include <stdexcept>
 
 #include "elf32/header/header_raw.hpp"
@@ -102,8 +103,39 @@ namespace PROJECT_NAMESPACE
             );
         }
 
-        const std::string operator|(const identification_raw& identification, const stringifier& s)
-        {}
+        elf32_unsigned_char identification_raw::get(enum_identification_indexes index) const
+        {
+            return m_bytes[index];
+        }
+
+        const lon_type* operator|(const identification_raw& identification, const lonifier& l)
+        {
+            lon_object*        lo = new lon_object;
+            std::ostringstream ostringstream;
+
+            ostringstream << std::hex
+                          << static_cast<uint32_t>(identification.get(
+                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_0
+                             ))
+                          << " ";
+            ostringstream << std::hex
+                          << static_cast<uint32_t>(identification.get(
+                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_1
+                             ))
+                          << " ";
+            ostringstream << std::hex
+                          << static_cast<uint32_t>(identification.get(
+                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_2
+                             ))
+                          << " ";
+            ostringstream << std::hex
+                          << static_cast<uint32_t>(identification.get(
+                                 identification_raw::enum_identification_indexes::MAGIC_NUMBER_3
+                             ))
+                          << " ";
+
+            return lo;
+        }
 
     } // namespace elf32
 

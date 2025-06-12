@@ -1,11 +1,11 @@
-#include "stringifier.hpp"
+#include "utility/lonifier/lonifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
 {
 #endif
 
-    stringifier::stringifier() {}
+    lonifier::lonifier() {}
 
 #ifdef PROJECT_NAMESPACE
 }

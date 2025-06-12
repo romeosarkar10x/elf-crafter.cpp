@@ -5,6 +5,7 @@
 
 #include "elf32/header/header_raw.hpp"
 #include "elf32/header/identification_raw.hpp"
+#include "utility/stringifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -65,7 +66,7 @@ namespace PROJECT_NAMESPACE
 
             new (&m_identification) identification_raw(buffer);
 
-            std::cout << (m_identification | stringifier()) << std::endl;
+            std::cout << (m_identification | lonifier() | stringifier()) << std::endl;
 
             // TODO: Validate each field.
             {

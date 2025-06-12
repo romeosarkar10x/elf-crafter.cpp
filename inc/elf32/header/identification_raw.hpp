@@ -5,7 +5,7 @@
 #include "elf32/types.hpp"
 #include "elf32/version.hpp"
 #include "utility/compare.hpp"
-#include "utility/stringifier.hpp"
+#include "utility/lonifier/lonifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -71,8 +71,8 @@ namespace PROJECT_NAMESPACE
             enum_data_encoding get_data_encoding() const;
             void               set_data_encoding(enum_data_encoding data_encoding);
 
-            friend const std::string operator|(
-                const identification_raw& identification, const stringifier& s
+            friend const lon_type* operator|(
+                const identification_raw& identification, const lonifier& l
             );
 
         private:
