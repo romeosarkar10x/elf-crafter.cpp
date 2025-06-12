@@ -2,8 +2,8 @@
 #define ELF_HEADER_HPP
 
 #include "config.hpp"
-#include "elf32/elf32_types.hpp"
 #include "elf32/header/identification_raw.hpp"
+#include "elf32/types.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -47,8 +47,6 @@ namespace PROJECT_NAMESPACE
             header_raw(int file_descriptor);
 
         private:
-            void m_validate();
-
             identification_raw m_identification;
 
             enum_object_type m_object_type;

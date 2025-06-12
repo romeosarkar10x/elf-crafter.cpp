@@ -2,9 +2,8 @@
 #define SECTION_HPP
 
 #include "config.hpp"
-#include "elf32/elf32_types.hpp"
+#include "elf32/types.hpp"
 #include "section_header_table/section_header.hpp"
-#include "types.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -25,10 +24,10 @@ namespace PROJECT_NAMESPACE
 
         struct section
         {
-            const elf_crafter::byte* get_bytes() const;
-            byte*                    get_bytes();
+            const std::byte* get_bytes() const;
+            std::byte*       get_bytes();
 
-            void set_bytes(const byte* bytes, elf32_word size);
+            void set_bytes(const std::byte* bytes, elf32_word size);
 
         private:
             section_header* m_ptr_section_header;

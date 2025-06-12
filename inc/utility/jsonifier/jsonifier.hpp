@@ -1,17 +1,23 @@
-#ifndef ELF_CRAFTER_SYMBOL_TABLE_HPP
-#define ELF_CRAFTER_SYMBOL_TABLE_HPP
+#ifndef ELF_CRAFTER_JSONIFIER_HPP
+#define ELF_CRAFTER_JSONIFIER_HPP
+
+#include <map>
 
 #include "config.hpp"
-#include "symbol_table_entry.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
 {
 #endif
-    struct symbol_table
+
+    struct json
     {
     private:
     };
+
+    struct jsonifier
+    {};
+
 #ifdef PROJECT_NAMESPACE
 }
 #endif

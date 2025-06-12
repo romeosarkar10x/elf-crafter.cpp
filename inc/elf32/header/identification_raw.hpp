@@ -2,9 +2,10 @@
 #define ELF_CRAFTER_ELF_IDENTIFICATION
 
 #include "config.hpp"
-#include "elf32/elf32_types.hpp"
-#include "stringifier.hpp"
-#include "types.hpp"
+#include "elf32/types.hpp"
+#include "elf32/version.hpp"
+#include "utility/compare.hpp"
+#include "utility/stringifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -14,7 +15,7 @@ namespace PROJECT_NAMESPACE
     {
         struct identification_raw
         {
-            enum struct enum_identification_indexes : elf32_offset
+            enum enum_identification_indexes : elf32_offset
             {
                 MAGIC_NUMBER_0,
                 MAGIC_NUMBER_1,
@@ -51,19 +52,11 @@ namespace PROJECT_NAMESPACE
                 enum_data_encoding data_encoding, const stringifier& s
             );
 
-            enum struct enum_file_version : elf32_unsigned_char
-            {
-                CURRENT,
-            };
-
-            friend const std::string operator|(
-                enum_file_version file_version, const stringifier& s
-            );
-
             identification_raw();
+            identification_raw(std::byte* bytes);
             identification_raw(
                 enum_file_class file_class, enum_data_encoding data_encoding,
-                enum_file_version file_version
+                enum_elf_version file_version
             );
 
             elf32_unsigned_char get(enum_identification_indexes index) const;
@@ -89,6 +82,7 @@ namespace PROJECT_NAMESPACE
         };
 
     } // namespace elf32
+
 #ifdef PROJECT_NAMESPACE
 }
 #endif

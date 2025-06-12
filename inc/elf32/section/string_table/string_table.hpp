@@ -2,8 +2,8 @@
 #define STRING_TABLE_HPP
 
 #include "config.hpp"
-#include "elf32/elf32_types.hpp"
-#include "types.hpp"
+#include "elf32/section/section.hpp"
+#include "elf32/types.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -11,7 +11,7 @@ namespace PROJECT_NAMESPACE
 #endif
     namespace elf32
     {
-        struct string_table
+        struct string_table : public section
         {
             const char* at(elf32_offset index) const;
             char*       at(elf32_offset index);

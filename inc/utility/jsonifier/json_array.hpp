@@ -1,7 +1,5 @@
-#ifndef ELF_CRAFTER_TYPES_HPP
-#define ELF_CRAFTER_TYPES_HPP
-
-#include <cstdint>
+#ifndef ELF_CRAFTER_JSONIFIER_JSON_ARRAY_HPP
+#define ELF_CRAFTER_JSONIFIER_JSON_ARRAY_HPP
 
 #include "config.hpp"
 
@@ -9,7 +7,9 @@
 namespace PROJECT_NAMESPACE
 {
 #endif
-    typedef uint8_t byte;
+
+    struct json_array
+    {};
 
 #ifdef PROJECT_NAMESPACE
 }

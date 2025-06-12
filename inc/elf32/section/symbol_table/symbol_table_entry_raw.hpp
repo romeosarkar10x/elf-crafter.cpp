@@ -2,9 +2,8 @@
 #define ELF_CRAFTER_SYMBOL_TABLE_ENTRY
 
 #include "config.hpp"
-#include "elf32/elf32_types.hpp"
-#include "elf32/section.hpp"
-#include "types.hpp"
+#include "elf32/section/section.hpp"
+#include "elf32/types.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -12,7 +11,7 @@ namespace PROJECT_NAMESPACE
 #endif
     namespace elf32
     {
-        struct symbol_table_entry
+        struct symbol_table_entry_raw
         {
             enum struct enum_symbol_type : uint8_t
             {

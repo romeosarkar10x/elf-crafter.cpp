@@ -5,9 +5,9 @@
 #include <vector>
 
 #include "elf32/header/header_raw.hpp"
-#include "elf32/section_header_table/section_header.hpp"
-#include "elf32/string_table/string_table.hpp"
-#include "elf32/symbol_table/symbol_table.hpp"
+#include "elf32/section/section_header_table/section_header.hpp"
+#include "elf32/section/string_table/string_table.hpp"
+#include "elf32/section/symbol_table/symbol_table.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -25,11 +25,11 @@ namespace PROJECT_NAMESPACE
             void write_file();
             void write_file(const char* pathname);
 
-            std::vector<section_header> get_section_headers() const;
-            section                     get_section(elf32_offset index) const;
+            const std::vector<section_header>& get_section_headers() const;
+            const section&                     get_section(elf32_offset index) const;
 
-            const symbol_table get_symbol_table() const;
-            symbol_table       get_symbol_table();
+            const std::vector<symbol_table> get_symbol_table() const;
+            symbol_table                    get_symbol_table();
 
             const string_table get_string_table() const;
             string_table       get_string_table();
@@ -38,6 +38,11 @@ namespace PROJECT_NAMESPACE
             int m_file_descriptor{-1};
 
             header_raw m_header;
+
+            std::vector<section_header> m_section_headers;
+
+            symbol_table m_symbol_table;
+            string_table m_string_table;
         };
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE

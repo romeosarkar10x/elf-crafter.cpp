@@ -2,9 +2,8 @@
 #define ELF_CRAFTER_SECTION_HEADER_HPP
 
 #include "config.hpp"
-#include "elf32/elf32_types.hpp"
-#include "stringifier.hpp"
-#include "types.hpp"
+#include "elf32/types.hpp"
+#include "utility/stringifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE

@@ -2,6 +2,8 @@
 #define ELF_CRAFTER_STRINGIFIER_HPP
 
 #include <string>
+#include <type_traits>
+#include <utility>
 
 #include "config.hpp"
 
@@ -13,13 +15,11 @@ namespace PROJECT_NAMESPACE
     {
         stringifier();
 
-        template <typename T> friend const std::string operator|(T value, const stringifier& s)
+        template <typename T, typename U = decltype(std::to_string(std::declval<T>()))>
+        friend const std::string operator|(T value, const stringifier& s)
         {
             return std::to_string(value);
         }
-
-    private:
-        static char s_buffer[4096u];
     };
 #ifdef PROJECT_NAMESPACE
 }
