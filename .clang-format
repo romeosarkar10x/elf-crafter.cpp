@@ -87,12 +87,12 @@ PackConstructorInitializers: NextLine
 SortIncludes: CaseInsensitive
 IncludeBlocks: Regroup
 IncludeCategories:
-  - Regex: '^<[[:alnum:]._]+>'
-    Priority: 1
-  - Regex: '^<[[:alnum:]._/]+>'
-    Priority: 2
-  - Regex: '^".*"'
-    Priority: 3
+    - Regex: '^<[[:alnum:]._]+>'
+      Priority: 1
+    - Regex: '^<[[:alnum:]._/]+>'
+      Priority: 2
+    - Regex: '^".*"'
+      Priority: 3
 
 # Pointers and references
 DerivePointerAlignment: false
