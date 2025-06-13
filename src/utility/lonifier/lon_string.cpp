@@ -13,6 +13,11 @@ namespace PROJECT_NAMESPACE
         return enum_lon_type::STRING;
     }
 
+    lon_string operator+(const lon_string& ls, const char* c_str)
+    {
+        return ls.m_value + c_str;
+    }
+
     std::string operator|(const lon_string& ls, const stringifier& s)
     {
         return ls.m_value;

@@ -2,8 +2,9 @@
 #define SECTION_HPP
 
 #include "config.hpp"
-#include "elf32/types.hpp"
-#include "section_header_table/section_header.hpp"
+#include "elf32/forward_declaration.hpp"
+#include "elf32/type.hpp"
+#include "section_header_table/section_header_raw.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -11,7 +12,7 @@ namespace PROJECT_NAMESPACE
 #endif
     namespace elf32
     {
-        enum struct enum_special_section_indexes : elf32_word
+        enum struct enum_special_section_indexes : elf32_half::type
         {
             UNDEFINED                         = 0u,
             RESERVED_LOW                      = 0xff00u,
@@ -30,7 +31,8 @@ namespace PROJECT_NAMESPACE
             void set_bytes(const std::byte* bytes, elf32_word size);
 
         private:
-            section_header* m_ptr_section_header;
+            section_header_raw* m_ptr_section_header;
+            elf32*              m_elf;
         };
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE

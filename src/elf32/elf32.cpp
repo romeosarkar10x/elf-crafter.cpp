@@ -14,7 +14,11 @@ namespace PROJECT_NAMESPACE
     {
         elf32::elf32(const char* const pathname, const bool write)
             : m_file_descriptor{open(pathname, write ? O_WRONLY | O_CREAT : O_RDONLY)},
-              m_header{m_file_descriptor}
+              m_header{m_file_descriptor},
+              m_section_header_table{
+                  m_file_descriptor, m_header.get_section_header_offset(),
+                  m_header.get_section_header_number_of_entries()
+              }
         {
             std::cout << (m_header | lonifier() | stringifier()) << std::endl;
         }

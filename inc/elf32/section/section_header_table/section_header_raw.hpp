@@ -1,8 +1,8 @@
-#ifndef ELF_CRAFTER_SECTION_HEADER_HPP
-#define ELF_CRAFTER_SECTION_HEADER_HPP
+#ifndef ELF_CRAFTER_SECTION_HEADER_RAW_HPP
+#define ELF_CRAFTER_SECTION_HEADER_RAW_HPP
 
 #include "config.hpp"
-#include "elf32/types.hpp"
+#include "elf32/type.hpp"
 #include "utility/stringifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
@@ -11,9 +11,9 @@ namespace PROJECT_NAMESPACE
 #endif
     namespace elf32
     {
-        struct section_header
+        struct section_header_raw
         {
-            enum struct enum_section_type : elf32_word
+            enum struct enum_section_type : elf32_word::type
             {
                 NULL_TYPE,
                 PROGRAM_BITS,
@@ -35,13 +35,11 @@ namespace PROJECT_NAMESPACE
                 HI_USER = 0xffffffffu,
             };
 
-            friend const std::string operator|(
-                enum_section_type section_type, const stringifier& s
-            );
+            friend const std::string operator|(enum_section_type section_type, const stringifier& s);
 
             struct section_attribute_flags
             {
-                enum struct enum_section_attribute : elf32_word
+                enum struct enum_section_attribute : elf32_word::type
                 {
                     WRITEABLE = 1u,
                     ALLOC,
@@ -58,21 +56,23 @@ namespace PROJECT_NAMESPACE
                 elf32_word m_flags;
             };
 
-            constexpr section_header()
+            constexpr section_header_raw()
                 : m_index_section_name(0u),
                   m_section_type(enum_section_type::NULL_TYPE),
                   m_address(0u),
                   m_file_offset(0u),
                   m_size(0u),
-                  m_link(),
+                  m_link_section_index(),
                   m_info(),
                   m_address_alignment(0u),
                   m_entry_size(0u)
 
             {}
 
-            const char* get_section_name() const;
-            void        set_section_name();
+            section_header_raw(const std::byte* bytes);
+
+            // const char* get_index_section_name() const;
+            // void        set_section_name();
 
             enum_section_type get_section_type() const;
             void              set_section_type(enum_section_type section_type);
@@ -105,7 +105,7 @@ namespace PROJECT_NAMESPACE
 
     | SYMBOL_TABLE
             */
-            elf32_word m_link;
+            elf32_word m_link_section_index;
             elf32_word m_info;
 
             elf32_word m_address_alignment;

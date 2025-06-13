@@ -2,7 +2,7 @@
 #define ELF_CRAFTER_ELF_IDENTIFICATION
 
 #include "config.hpp"
-#include "elf32/types.hpp"
+#include "elf32/type.hpp"
 #include "elf32/version.hpp"
 #include "utility/compare.hpp"
 #include "utility/lonifier/lonifier.hpp"
@@ -15,7 +15,7 @@ namespace PROJECT_NAMESPACE
     {
         struct identification_raw
         {
-            enum enum_identification_indexes : elf32_offset
+            enum enum_identification_indexes : elf32_offset::type
             {
                 MAGIC_NUMBER_0,
                 MAGIC_NUMBER_1,

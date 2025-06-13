@@ -3,7 +3,7 @@
 
 #include "config.hpp"
 #include "elf32/section/section.hpp"
-#include "elf32/types.hpp"
+#include "elf32/type.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE

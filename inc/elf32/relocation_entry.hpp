@@ -2,7 +2,7 @@
 #define ELF_CRAFTER_RELOCATION_ENTRY_HPP
 
 #include "config.hpp"
-#include "elf32/types.hpp"
+#include "elf32/type.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE

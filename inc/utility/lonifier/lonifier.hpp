@@ -19,6 +19,15 @@ namespace PROJECT_NAMESPACE
     struct lonifier
     {
         lonifier();
+
+        template <typename T>
+            requires std::is_fundamental_v<T>
+        friend const lon_type* operator|(const T& t, const lonifier& l)
+        {
+            return new lon_string(std::to_string(t));
+        }
+
+        friend const lon_type* operator|(const std::string& s, const lonifier& l);
     };
 
 #ifdef PROJECT_NAMESPACE

@@ -2,7 +2,7 @@
 #define ELF_CRAFTER_ELF32_VERSION_HPP
 
 #include "config.hpp"
-#include "elf32/types.hpp"
+#include "elf32/type.hpp"
 #include "utility/lonifier/lonifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
@@ -12,7 +12,7 @@ namespace PROJECT_NAMESPACE
 
     namespace elf32
     {
-        enum struct enum_elf_version : elf32_word
+        enum struct enum_elf_version : elf32_word::type
         {
             NONE,
             CURRENT,

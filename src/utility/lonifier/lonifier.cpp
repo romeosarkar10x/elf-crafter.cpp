@@ -7,6 +7,11 @@ namespace PROJECT_NAMESPACE
 
     lonifier::lonifier() {}
 
+    const lon_type* operator|(const std::string& s, const lonifier& l)
+    {
+        return new lon_string(s);
+    }
+
 #ifdef PROJECT_NAMESPACE
 }
 #endif

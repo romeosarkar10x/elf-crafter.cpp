@@ -17,6 +17,7 @@ namespace PROJECT_NAMESPACE
 
         enum_lon_type get_type() const override;
 
+        friend lon_string  operator+(const lon_string& ls, const char* c_str);
         friend std::string operator|(const lon_string& ls, const stringifier& s);
 
     private:

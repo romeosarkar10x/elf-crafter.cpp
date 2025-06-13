@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "elf32/header/header_raw.hpp"
-#include "elf32/section/section_header_table/section_header.hpp"
+#include "elf32/section/section_header_table/section_header_table.hpp"
 #include "elf32/section/string_table/string_table.hpp"
 #include "elf32/section/symbol_table/symbol_table.hpp"
 
@@ -25,8 +25,10 @@ namespace PROJECT_NAMESPACE
             void write_file();
             void write_file(const char* pathname);
 
-            const std::vector<section_header>& get_section_headers() const;
-            const section&                     get_section(elf32_offset index) const;
+            const section_header_table& get_section_header_table() const;
+            section_header_table&       get_section_header_table();
+
+            const section& get_section(elf32_offset index) const;
 
             const std::vector<symbol_table> get_symbol_table() const;
             symbol_table                    get_symbol_table();
@@ -39,7 +41,7 @@ namespace PROJECT_NAMESPACE
 
             header_raw m_header;
 
-            std::vector<section_header> m_section_headers;
+            section_header_table m_section_header_table;
 
             symbol_table m_symbol_table;
             string_table m_string_table;
