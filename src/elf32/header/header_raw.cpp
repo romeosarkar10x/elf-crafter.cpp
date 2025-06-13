@@ -1,8 +1,8 @@
-#include "elf32/header/header_raw.hpp"
-
 #include <climits>
 #include <stdexcept>
 #include <unistd.h>
+
+#include <elf32/header/header_raw.hpp>
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -90,64 +90,9 @@ namespace PROJECT_NAMESPACE
             throw std::runtime_error("Invalid `machine_type`");
         }
 
-        header_raw::header_raw(int file_descriptor)
+        header_raw::header_raw(const std::byte* const bytes) : identification{bytes}
         {
-            if (file_descriptor == -1) {
-                throw std::runtime_error("file_descriptor == -1");
-            }
-
-            off_t last_offset = lseek(file_descriptor, 0, SEEK_CUR);
-
-            if (last_offset == -1) {
-                // TODO: Handle errors.
-                if (errno == EBADF) {
-                } else if (errno == EINVAL) {
-                } else if (errno == ENXIO) {
-                } else if (errno == EOVERFLOW) {
-                } else if (errno == ESPIPE) {
-                }
-
-                throw std::runtime_error("unable to get last_offset");
-            }
-
-            {
-                off_t offset = lseek(file_descriptor, 0, SEEK_SET);
-
-                if (offset == -1) {
-                    // TODO: Handle errors.
-                    if (errno == EBADF) {
-                    } else if (errno == EINVAL) {
-                    } else if (errno == ENXIO) {
-                    } else if (errno == EOVERFLOW) {
-                    } else if (errno == ESPIPE) {
-                    }
-
-                    throw std::runtime_error("Unable to seek to offset 0 (absolute)");
-                }
-            }
-
-            std::byte* buffer = reinterpret_cast<std::byte*>(this);
-
-            size_t number_of_bytes_read    = 0;
-            size_t number_of_bytes_to_read = sizeof(header_raw);
-
-            while (number_of_bytes_to_read) {
-                ssize_t current_number_of_bytes_read =
-                    read(file_descriptor, buffer + number_of_bytes_read, number_of_bytes_to_read);
-
-                if (current_number_of_bytes_read == 0) {
-                    throw std::runtime_error("unexpected end of file!");
-                } else if (current_number_of_bytes_read == -1) {
-                    if (errno != EAGAIN) {
-                        throw std::runtime_error("error reading at header_raw");
-                    }
-                }
-
-                number_of_bytes_read += current_number_of_bytes_read;
-                number_of_bytes_to_read -= current_number_of_bytes_read;
-            }
-
-            new (&m_identification) identification_raw(buffer);
+            const header_raw& h_raw = *reinterpret_cast<const header_raw*>(bytes);
 
             // TODO: Validate each field.
             {
@@ -197,59 +142,27 @@ namespace PROJECT_NAMESPACE
             {
                 // Validate `section_name_string_table_index`
             }
+
+            object_type = h_raw.object_type;
+            machine     = h_raw.machine;
+            version     = h_raw.version;
+            entry_point = h_raw.entry_point;
+
+            program_header_offset = h_raw.program_header_offset;
+            section_header_offset = h_raw.section_header_offset;
+
+            flags = h_raw.flags;
+
+            elf_header_size = h_raw.elf_header_size;
+
+            program_header_entry_size        = h_raw.program_header_entry_size;
+            program_header_number_of_entries = h_raw.program_header_number_of_entries;
+
+            section_header_entry_size        = h_raw.section_header_entry_size;
+            section_header_number_of_entries = h_raw.section_header_number_of_entries;
+
+            section_name_string_table_index = h_raw.section_name_string_table_index;
         }
-
-        const lon_type* operator|(const header_raw& h_raw, const lonifier& l)
-        {
-            lon_object* lo = new lon_object;
-
-            lo->set_key("Identification", h_raw.m_identification | l);
-            lo->set_key("Object type", h_raw.m_object_type | l);
-            lo->set_key("Machine", h_raw.m_machine | l);
-
-            // lo->set_key("Version", );
-            lo->set_key("Entry point", h_raw.m_entry_point | l);
-            lo->set_key("Program-header offset", h_raw.m_program_header_offset | l);
-            lo->set_key("Section-header offset", h_raw.m_section_header_offset | l);
-
-            // TODO: implement elf-header flags
-            // lo->set_key("Flags: ")
-
-            lo->set_key("ELF header size", (h_raw.m_elf_header_size.value | l));
-
-            lo->set_key("Program-header entry size", h_raw.m_program_header_entry_size.value | l);
-            lo->set_key("Program-header number of entries", h_raw.m_program_header_number_of_entries.value | l);
-
-            lo->set_key("Section-header entry size", h_raw.m_section_header_entry_size.value | l);
-            lo->set_key("Section-header number of entries", h_raw.m_section_header_number_of_entries.value | l);
-
-            lo->set_key(
-                "Section-name string-table index", std::to_string(h_raw.m_section_name_string_table_index.value) | l
-            );
-
-            return lo;
-        }
-
-        elf32_offset header_raw::get_program_header_offset() const
-        {
-            return m_program_header_offset;
-        }
-
-        elf32_offset header_raw::get_section_header_offset() const
-        {
-            return m_section_header_offset;
-        }
-
-        elf32_half header_raw::get_section_header_number_of_entries() const
-        {
-            return m_section_header_number_of_entries;
-        }
-
-        elf32_half header_raw::get_section_header_entry_size() const
-        {
-            return m_section_header_entry_size;
-        }
-
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE
 }

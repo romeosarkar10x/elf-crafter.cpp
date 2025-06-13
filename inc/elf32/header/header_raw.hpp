@@ -1,9 +1,11 @@
 #ifndef ELF_HEADER_HPP
 #define ELF_HEADER_HPP
 
-#include "config.hpp"
-#include "elf32/header/identification_raw.hpp"
-#include "elf32/type.hpp"
+#include <config.hpp>
+#include <memory>
+
+#include <elf32/header/identification_raw.hpp>
+#include <elf32/type.hpp>
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -48,38 +50,30 @@ namespace PROJECT_NAMESPACE
             friend const lon_type* operator|(enum_machine_type machine_type, const lonifier& l);
 
             header_raw();
-            explicit header_raw(int file_descriptor);
+            header_raw(const std::byte* bytes);
 
-            friend const lon_type* operator|(const header_raw& h_raw, const lonifier& l);
+            identification_raw identification;
 
-            elf32_offset get_program_header_offset() const;
+            enum_object_type  object_type;
+            enum_machine_type machine;
+            enum_elf_version  version;
 
-            elf32_offset get_section_header_offset() const;
-            elf32_half   get_section_header_number_of_entries() const;
-            elf32_half   get_section_header_entry_size() const;
+            elf32_address entry_point;
 
-        private:
-            identification_raw m_identification;
+            elf32_offset program_header_offset;
+            elf32_offset section_header_offset;
 
-            enum_object_type  m_object_type;
-            enum_machine_type m_machine;
-            elf32_word        m_version;
+            elf32_word flags;
 
-            elf32_address m_entry_point;
+            elf32_half elf_header_size;
 
-            elf32_offset m_program_header_offset;
-            elf32_offset m_section_header_offset;
+            elf32_half program_header_entry_size;
+            elf32_half program_header_number_of_entries;
 
-            elf32_word m_flags;
+            elf32_half section_header_entry_size;
+            elf32_half section_header_number_of_entries;
 
-            elf32_half m_elf_header_size;
-            elf32_half m_program_header_entry_size;
-            elf32_half m_program_header_number_of_entries;
-
-            elf32_half m_section_header_entry_size;
-            elf32_half m_section_header_number_of_entries;
-
-            elf32_half m_section_name_string_table_index;
+            elf32_half section_name_string_table_index;
         };
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE

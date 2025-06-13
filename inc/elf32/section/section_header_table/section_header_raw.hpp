@@ -1,9 +1,11 @@
 #ifndef ELF_CRAFTER_SECTION_HEADER_RAW_HPP
 #define ELF_CRAFTER_SECTION_HEADER_RAW_HPP
 
-#include "config.hpp"
-#include "elf32/type.hpp"
-#include "utility/stringifier.hpp"
+#include <config.hpp>
+
+#include <elf32/section/type.hpp>
+#include <elf32/type.hpp>
+#include <utility/stringifier.hpp>
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -13,28 +15,6 @@ namespace PROJECT_NAMESPACE
     {
         struct section_header_raw
         {
-            enum struct enum_section_type : elf32_word::type
-            {
-                NULL_TYPE,
-                PROGRAM_BITS,
-                SYMBOL_TABLE,
-                STRING_TABLE,
-                RELOCATION_WITH_ADDENDS,
-                HASH,
-                DYNAMIC,
-                NOTE,
-                NO_BITS,
-                RELOCATION,
-                LIB,
-                DYNAMIC_SYMBOL,
-
-                LO_PROC = 0x70000000u,
-                HI_PROC = 0x7fffffffu,
-
-                LO_USER = 0x80000000u,
-                HI_USER = 0xffffffffu,
-            };
-
             friend const std::string operator|(enum_section_type section_type, const stringifier& s);
 
             struct section_attribute_flags

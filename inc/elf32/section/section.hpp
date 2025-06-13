@@ -30,9 +30,21 @@ namespace PROJECT_NAMESPACE
 
             void set_bytes(const std::byte* bytes, elf32_word size);
 
+            static std::map<enum_section_type, std::vector<section>> create_sections_map();
+
         private:
-            section_header_raw* m_ptr_section_header;
-            elf32*              m_elf;
+            elf32* m_elf;
+
+            enum_section_type m_type;
+            std::string       m_name;
+
+            elf32_address m_address;
+            elf32_offset  m_file_offset;
+
+            elf32_word m_size;
+            std::byte* m_bytes;
+
+            section* m_link;
         };
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE

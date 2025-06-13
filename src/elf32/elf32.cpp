@@ -12,36 +12,36 @@ namespace PROJECT_NAMESPACE
 
     namespace elf32
     {
-        elf32::elf32(const char* const pathname, const bool write)
-            : m_file_descriptor{open(pathname, write ? O_WRONLY | O_CREAT : O_RDONLY)},
-              m_header{m_file_descriptor},
-              m_section_header_table{
-                  m_file_descriptor, m_header.get_section_header_offset(),
-                  m_header.get_section_header_number_of_entries()
-              }
+        elf32::elf32(const char* const pathname, const bool write) : m_file{pathname, write}, m_header{m_file}
         {
+            auto& section_headers = section_header_table(
+                                        m_file, m_header.get_section_header_offset(),
+                                        m_header.get_section_header_number_of_entries()
+            )
+                                        .get_section_headers();
+
             std::cout << (m_header | lonifier() | stringifier()) << std::endl;
         }
 
         void elf32::open_file(const char* const pathname, const bool write)
         {
-            if (write) {
-                m_file_descriptor = open(pathname, O_WRONLY | O_CREAT);
-
-            } else {
-                m_file_descriptor = open(pathname, O_RDONLY);
-            }
-
-            if (m_file_descriptor == -1) {
-                throw std::runtime_error("cannot open file!");
-            }
+            m_file.open(pathname, write);
         }
 
-        void elf32::close_file() {}
+        void elf32::close_file()
+        {
+            m_file.close();
+        }
 
-        void elf32::write_file() {}
+        void elf32::write_file()
+        {
+            throw std::runtime_error("Not implemented!");
+        }
 
-        void elf32::write_file(const char* const filename) {}
+        void elf32::write_file(const char* const filename)
+        {
+            throw std::runtime_error("Not implemented!!");
+        }
     } // namespace elf32
 
 #ifdef PROJECT_NAMESPACE

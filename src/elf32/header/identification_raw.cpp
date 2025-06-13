@@ -20,18 +20,16 @@ namespace PROJECT_NAMESPACE
                 return new lon_string("None");
 
             case identification_raw::enum_file_class::CLASS_32:
-                return new lon_string("32-Bit");
+                return new lon_string("32-bit");
 
             case identification_raw::enum_file_class::CLASS_64:
-                return new lon_string("64-Bit");
+                return new lon_string("64-bit");
             }
 
             throw std::runtime_error("invalid file_class");
         }
 
-        const lon_type* operator|(
-            identification_raw::enum_data_encoding data_encoding, const lonifier& l
-        )
+        const lon_type* operator|(identification_raw::enum_data_encoding data_encoding, const lonifier& l)
         {
             switch (data_encoding) {
             case identification_raw::enum_data_encoding::NONE:
@@ -49,14 +47,13 @@ namespace PROJECT_NAMESPACE
 
         identification_raw::identification_raw() {}
 
-        identification_raw::identification_raw(std::byte* bytes)
+        identification_raw::identification_raw(const std::byte* const bytes)
         {
             // TODO: Validate each field!
+            const identification_raw& id_raw = *reinterpret_cast<const identification_raw*>(bytes);
             {
                 // Validate `MAGIC_NUMBER_0`
-                const elf32_unsigned_char magic_number_0 = static_cast<elf32_unsigned_char>(
-                    bytes[enum_identification_indexes::MAGIC_NUMBER_0]
-                );
+                const elf32_unsigned_char magic_number_0 = id_raw.m_bytes[enum_identification_indexes::MAGIC_NUMBER_0];
 
                 if (magic_number_0 != 0x7fu) {
                     throw std::runtime_error("invalid magic_number_0");
@@ -65,9 +62,7 @@ namespace PROJECT_NAMESPACE
 
             {
                 // Validate `MAGIC_NUMBER_1`
-                const elf32_unsigned_char magic_number_1 = static_cast<elf32_unsigned_char>(
-                    bytes[enum_identification_indexes::MAGIC_NUMBER_1]
-                );
+                const elf32_unsigned_char magic_number_1 = id_raw.m_bytes[enum_identification_indexes::MAGIC_NUMBER_1];
 
                 if (magic_number_1 != 0x45u) {
                     throw std::runtime_error("invalid magic_number_1");
@@ -133,9 +128,7 @@ namespace PROJECT_NAMESPACE
                 // Validate `START_OF_PADDING_BYTES`
             }
 
-            std::copy(
-                bytes, bytes + SIZE_OF_IDENTIFICATION, reinterpret_cast<std::byte*>(&m_bytes)
-            );
+            std::copy(bytes, bytes + SIZE_OF_IDENTIFICATION, reinterpret_cast<std::byte*>(&m_bytes));
         }
 
         elf32_unsigned_char identification_raw::get(enum_identification_indexes index) const
@@ -150,15 +143,12 @@ namespace PROJECT_NAMESPACE
 
         identification_raw::enum_data_encoding identification_raw::get_data_encoding() const
         {
-            return static_cast<enum_data_encoding>(
-                m_bytes[enum_identification_indexes::DATA_ENCODING]
-            );
+            return static_cast<enum_data_encoding>(m_bytes[enum_identification_indexes::DATA_ENCODING]);
         }
 
         enum_elf_version identification_raw::get_elf_version() const
         {
-            return static_cast<enum_elf_version>(m_bytes[enum_identification_indexes::FILE_VERSION]
-            );
+            return static_cast<enum_elf_version>(m_bytes[enum_identification_indexes::FILE_VERSION]);
         }
 
         const lon_type* operator|(const identification_raw& identification, const lonifier& l)
@@ -167,24 +157,24 @@ namespace PROJECT_NAMESPACE
             std::ostringstream magic;
 
             magic << std::hex
-                  << static_cast<uint32_t>(identification.get(
-                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_0
-                     ))
+                  << static_cast<uint32_t>(
+                         identification.get(identification_raw::enum_identification_indexes::MAGIC_NUMBER_0)
+                     )
                   << " ";
             magic << std::hex
-                  << static_cast<uint32_t>(identification.get(
-                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_1
-                     ))
+                  << static_cast<uint32_t>(
+                         identification.get(identification_raw::enum_identification_indexes::MAGIC_NUMBER_1)
+                     )
                   << " ";
             magic << std::hex
-                  << static_cast<uint32_t>(identification.get(
-                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_2
-                     ))
+                  << static_cast<uint32_t>(
+                         identification.get(identification_raw::enum_identification_indexes::MAGIC_NUMBER_2)
+                     )
                   << " ";
             magic << std::hex
-                  << static_cast<uint32_t>(identification.get(
-                         identification_raw::enum_identification_indexes::MAGIC_NUMBER_3
-                     ))
+                  << static_cast<uint32_t>(
+                         identification.get(identification_raw::enum_identification_indexes::MAGIC_NUMBER_3)
+                     )
                   << " ";
 
             lo->set_key("Magic", new lon_string(magic.str()));

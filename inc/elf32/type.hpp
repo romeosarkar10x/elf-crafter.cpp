@@ -30,6 +30,8 @@ namespace PROJECT_NAMESPACE
                 return *this;
             }
 
+            constexpr operator T() { return this->value; }
+
             constexpr decorator& operator=(const decorator& address)
             {
                 this->value = address.value;

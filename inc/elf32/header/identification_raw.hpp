@@ -47,10 +47,9 @@ namespace PROJECT_NAMESPACE
             friend const lon_type* operator|(enum_data_encoding data_encoding, const lonifier& l);
 
             identification_raw();
-            identification_raw(std::byte* bytes);
+            identification_raw(const std::byte* bytes);
             identification_raw(
-                enum_file_class file_class, enum_data_encoding data_encoding,
-                enum_elf_version file_version
+                enum_file_class file_class, enum_data_encoding data_encoding, enum_elf_version file_version
             );
 
             elf32_unsigned_char get(enum_identification_indexes index) const;
@@ -68,14 +67,11 @@ namespace PROJECT_NAMESPACE
             enum_elf_version get_elf_version() const;
             void             set_elf_version(enum_elf_version elf_version);
 
-            friend const lon_type* operator|(
-                const identification_raw& identification, const lonifier& l
-            );
+            friend const lon_type* operator|(const identification_raw& identification, const lonifier& l);
 
         private:
-            elf32_unsigned_char m_bytes[static_cast<unsigned long>(
-                enum_identification_indexes::SIZE_OF_IDENTIFICATION
-            )];
+            elf32_unsigned_char
+                m_bytes[static_cast<unsigned long>(enum_identification_indexes::SIZE_OF_IDENTIFICATION)];
         };
 
     } // namespace elf32
