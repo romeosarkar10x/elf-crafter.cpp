@@ -1,3 +1,4 @@
+/*
 #include "elf32/section/section_header_table/section_header_table.hpp"
 
 #include <stdexcept>
@@ -11,7 +12,7 @@ namespace PROJECT_NAMESPACE
     namespace elf32
     {
         section_header_table::section_header_table(
-            file& f, elf32_offset section_header_offset, elf32_half number_of_entries
+            file& f, elf32_offset section_header_table_offset, elf32_half number_of_entries
         )
         {
             const size_t               size  = number_of_entries * sizeof(section_header_raw);
@@ -37,3 +38,4 @@ namespace PROJECT_NAMESPACE
 #ifdef PROJECT_NAMESPACE
 }
 #endif
+*/

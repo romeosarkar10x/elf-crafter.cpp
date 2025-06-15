@@ -1,8 +1,8 @@
-#include "utility/lonifier/lon_type.hpp"
-
-#include "utility/lonifier/lon_array.hpp"
-#include "utility/lonifier/lon_object.hpp"
-#include "utility/lonifier/lon_string.hpp"
+#include <utility/lonifier/lon_array.hpp>
+#include <utility/lonifier/lon_bytes.hpp>
+#include <utility/lonifier/lon_object.hpp>
+#include <utility/lonifier/lon_string.hpp>
+#include <utility/lonifier/lon_type.hpp>
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -20,6 +20,9 @@ namespace PROJECT_NAMESPACE
 
         case lon_type::enum_lon_type::OBJECT:
             return *dynamic_cast<const lon_object*>(l) | s;
+
+        case lon_type::enum_lon_type::BYTES:
+            return *dynamic_cast<const lon_bytes*>(l) | s;
 
         default:
             return "default case (should have been unreachable)";

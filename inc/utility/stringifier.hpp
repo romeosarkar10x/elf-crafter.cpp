@@ -19,6 +19,8 @@ namespace PROJECT_NAMESPACE
         uint16_t get_lon_indent_width() const;
         // uint16_t set_lon_indent_width(uint16_t lon_indent_width);
 
+        const char* get_box_character(std::size_t index) const;
+
         void increment_depth() const;
         void decrement_depth() const;
 
@@ -31,7 +33,8 @@ namespace PROJECT_NAMESPACE
         }
 
     private:
-        uint16_t m_lon_indent_width = 4u;
+        uint16_t          m_lon_indent_width    = 4u;
+        const char* const m_box_characters[11u] = {"│", "─", "┌", "┐", "└", "┘", "┬", "├", "┤", "┴", "┼"};
 
         mutable uint16_t m_depth = 0u;
     };

@@ -3,8 +3,9 @@
 
 #include <cstdint>
 
+#include <utility/lonifier/lonifier.hpp>
+
 #include "config.hpp"
-#include "utility/lonifier/lonifier.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -30,7 +31,7 @@ namespace PROJECT_NAMESPACE
                 return *this;
             }
 
-            constexpr operator T() { return this->value; }
+            constexpr operator T() const { return this->value; }
 
             constexpr decorator& operator=(const decorator& address)
             {
@@ -38,7 +39,7 @@ namespace PROJECT_NAMESPACE
                 return *this;
             }
 
-            friend constexpr inline decorator operator+(const decorator& a, const decorator& b)
+            friend constexpr decorator operator+(const decorator& a, const decorator& b)
             {
                 return elf32_address(a.value + b.value);
             }

@@ -1,7 +1,7 @@
-#include "utility/lonifier/lon_object.hpp"
-
 #include <iostream>
 #include <sstream>
+
+#include <utility/lonifier/lon_object.hpp>
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -42,7 +42,7 @@ namespace PROJECT_NAMESPACE
 
         for (auto& [key, value] : lo.get_key_value_map()) {
             for (uint16_t depth = 0u; depth < s.get_depth(); depth++) {
-                ostringstream << "|" << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
+                ostringstream << s.get_box_character(0u) << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
             }
 
             ostringstream << key << ": " << (value | s) << std::endl;
@@ -51,7 +51,7 @@ namespace PROJECT_NAMESPACE
         s.decrement_depth();
 
         for (uint16_t depth = 0u; depth < s.get_depth(); depth++) {
-            ostringstream << '|' << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
+            ostringstream << s.get_box_character(0u) << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
         }
         ostringstream << "}";
         return ostringstream.str();

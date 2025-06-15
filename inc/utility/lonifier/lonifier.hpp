@@ -5,6 +5,7 @@
 
 #include "config.hpp"
 #include "lon_array.hpp"
+#include "lon_bytes.hpp"
 #include "lon_object.hpp"
 #include "lon_string.hpp"
 #include "lon_type.hpp"

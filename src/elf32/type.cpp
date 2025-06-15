@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "elf32/type.hpp"
+#include <elf32/type.hpp>
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -27,6 +27,13 @@ namespace PROJECT_NAMESPACE
         {
             std::ostringstream oss;
             oss << "0x" << std::hex << offset.value;
+            return new lon_string(oss.str());
+        }
+
+        const lon_type* operator|(const elf32_word& word, const lonifier& l)
+        {
+            std::ostringstream oss;
+            oss << word.value;
             return new lon_string(oss.str());
         }
     } // namespace elf32

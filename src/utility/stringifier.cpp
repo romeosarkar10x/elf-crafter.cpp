@@ -2,8 +2,6 @@
 
 #include <stdexcept>
 
-#include "utility/lonifier/lon_type.hpp"
-
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
 {
@@ -21,6 +19,11 @@ namespace PROJECT_NAMESPACE
     uint16_t stringifier::get_lon_indent_width() const
     {
         return m_lon_indent_width;
+    }
+
+    const char* stringifier::get_box_character(std::size_t index) const
+    {
+        return m_box_characters[index];
     }
 
     void stringifier::increment_depth() const

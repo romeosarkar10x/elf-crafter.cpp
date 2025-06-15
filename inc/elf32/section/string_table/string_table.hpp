@@ -13,11 +13,10 @@ namespace PROJECT_NAMESPACE
     {
         struct string_table : public section
         {
-            const char* at(elf32_offset index) const;
-            char*       at(elf32_offset index);
+            using section::section;
 
-        private:
-            char* m_ptr;
+            const char* get(elf32_word index) const;
+            char*       get(elf32_word index);
         };
 
     } // namespace elf32

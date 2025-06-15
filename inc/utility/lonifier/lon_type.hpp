@@ -15,6 +15,7 @@ namespace PROJECT_NAMESPACE
             ARRAY,
             OBJECT,
             STRING,
+            BYTES,
         };
 
         virtual enum_lon_type get_type() const = 0;

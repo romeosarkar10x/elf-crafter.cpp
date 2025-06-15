@@ -1,3 +1,4 @@
+/*
 #ifndef ELF_CRAFTER_SECTION_HEADER_TABLE_HPP
 #define ELF_CRAFTER_SECTION_HEADER_TABLE_HPP
 
@@ -17,7 +18,7 @@ namespace PROJECT_NAMESPACE
     {
         struct section_header_table
         {
-            section_header_table(file& f, elf32_offset section_header_offset, elf32_half number_of_entries);
+            section_header_table(file& f, elf32_offset section_header_table_offset, elf32_half number_of_entries);
             const std::vector<section_header_raw>& get_section_headers() const;
 
         private:
@@ -30,3 +31,4 @@ namespace PROJECT_NAMESPACE
 #endif
 
 #endif
+*/

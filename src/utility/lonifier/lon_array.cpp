@@ -31,26 +31,26 @@ namespace PROJECT_NAMESPACE
 
     std::string operator|(const lon_array& la, const stringifier& s)
     {
-        std::ostringstream ostringstream;
-        ostringstream << "[" << std::endl;
+        std::ostringstream oss;
+        oss << "[" << std::endl;
 
         s.increment_depth();
 
         for (auto&& value : la.get_values()) {
             for (uint16_t depth = 0u; depth < s.get_depth(); depth++) {
-                ostringstream << '|' << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
+                oss << s.get_box_character(0u) << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
             }
 
-            ostringstream << (value | s) << std::endl;
+            oss << (value | s) << std::endl;
         }
 
         s.decrement_depth();
 
         for (uint16_t depth = 0u; depth < s.get_depth(); depth++) {
-            ostringstream << '|' << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
+            oss << s.get_box_character(0u) << std::string(s.get_lon_indent_width() - 1u, ' '); // Indent
         }
-        ostringstream << "]";
-        return ostringstream.str();
+        oss << "]";
+        return oss.str();
     }
 
 #ifdef PROJECT_NAMESPACE

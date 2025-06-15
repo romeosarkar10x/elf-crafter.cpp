@@ -5,7 +5,6 @@
 #include <vector>
 
 #include <elf32/header/header.hpp>
-#include <elf32/section/section_header_table/section_header_table.hpp>
 #include <elf32/section/string_table/string_table.hpp>
 #include <elf32/section/symbol_table/symbol_table.hpp>
 #include <utility/file.hpp>
@@ -25,9 +24,6 @@ namespace PROJECT_NAMESPACE
 
             void write_file();
             void write_file(const char* pathname);
-
-            const section_header_table& get_section_header_table() const;
-            section_header_table&       get_section_header_table();
 
             const std::vector<section>& get_sections(enum_section_type section_type);
             const section&              get_section(enum_section_type, std::size_t index) const;

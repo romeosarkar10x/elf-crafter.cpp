@@ -19,13 +19,15 @@ namespace PROJECT_NAMESPACE
             header();
             header(file& f);
 
-            elf32_offset get_program_header_offset() const;
+            elf32_offset get_program_header_table_offset() const;
             elf32_half   get_program_header_number_of_entries() const;
-            elf32_half   get_program_header_entry_size() const;
+            elf32_half   get_program_header_table_entry_size() const;
 
-            elf32_offset get_section_header_offset() const;
-            elf32_half   get_section_header_number_of_entries() const;
-            elf32_half   get_section_header_entry_size() const;
+            elf32_offset get_section_header_table_offset() const;
+            elf32_half   get_section_header_table_number_of_entries() const;
+            elf32_half   get_section_header_table_entry_size() const;
+
+            elf32_half get_section_name_string_table_index() const;
 
             friend const lon_type* operator|(const header& header, const lonifier& l);
 

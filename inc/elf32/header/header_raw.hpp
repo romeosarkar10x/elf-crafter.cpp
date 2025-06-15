@@ -60,18 +60,18 @@ namespace PROJECT_NAMESPACE
 
             elf32_address entry_point;
 
-            elf32_offset program_header_offset;
-            elf32_offset section_header_offset;
+            elf32_offset program_header_table_offset;
+            elf32_offset section_header_table_offset;
 
             elf32_word flags;
 
             elf32_half elf_header_size;
 
-            elf32_half program_header_entry_size;
+            elf32_half program_header_table_entry_size;
             elf32_half program_header_number_of_entries;
 
-            elf32_half section_header_entry_size;
-            elf32_half section_header_number_of_entries;
+            elf32_half section_header_table_entry_size;
+            elf32_half section_header_table_number_of_entries;
 
             elf32_half section_name_string_table_index;
         };

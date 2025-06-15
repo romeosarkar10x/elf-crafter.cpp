@@ -1,5 +1,5 @@
 
-#include <iostream>
+#include <utility>
 
 #include <utility/file.hpp>
 
@@ -52,7 +52,7 @@ namespace PROJECT_NAMESPACE
     {
         m_check_open();
 
-        int ret = ::close(m_file_descriptor);
+        int ret = ::close(std::exchange(m_file_descriptor, -1));
 
         if (ret == -1) {
             throw std::runtime_error("failed to close file!");

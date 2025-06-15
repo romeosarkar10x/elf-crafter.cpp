@@ -108,11 +108,11 @@ namespace PROJECT_NAMESPACE
             }
 
             {
-                // Validate `program_header_offset`
+                // Validate `program_header_table_offset`
             }
 
             {
-                // Validate `section_header_offset`
+                // Validate `section_header_table_offset`
             }
 
             {
@@ -124,7 +124,7 @@ namespace PROJECT_NAMESPACE
             }
 
             {
-                // Validate `program_header_entry_size`
+                // Validate `program_header_table_entry_size`
             }
 
             {
@@ -132,11 +132,11 @@ namespace PROJECT_NAMESPACE
             }
 
             {
-                // Validate `section_header_entry_size`
+                // Validate `section_header_table_entry_size`
             }
 
             {
-                // Validate `section_header_number_of_entries`
+                // Validate `section_header_table_number_of_entries`
             }
 
             {
@@ -148,18 +148,18 @@ namespace PROJECT_NAMESPACE
             version     = h_raw.version;
             entry_point = h_raw.entry_point;
 
-            program_header_offset = h_raw.program_header_offset;
-            section_header_offset = h_raw.section_header_offset;
+            program_header_table_offset = h_raw.program_header_table_offset;
+            section_header_table_offset = h_raw.section_header_table_offset;
 
             flags = h_raw.flags;
 
             elf_header_size = h_raw.elf_header_size;
 
-            program_header_entry_size        = h_raw.program_header_entry_size;
+            program_header_table_entry_size  = h_raw.program_header_table_entry_size;
             program_header_number_of_entries = h_raw.program_header_number_of_entries;
 
-            section_header_entry_size        = h_raw.section_header_entry_size;
-            section_header_number_of_entries = h_raw.section_header_number_of_entries;
+            section_header_table_entry_size        = h_raw.section_header_table_entry_size;
+            section_header_table_number_of_entries = h_raw.section_header_table_number_of_entries;
 
             section_name_string_table_index = h_raw.section_name_string_table_index;
         }

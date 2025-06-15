@@ -31,7 +31,9 @@ namespace PROJECT_NAMESPACE
             LO_USER = 0x80000000u,
             HI_USER = 0xffffffffu,
         };
-    }
+
+        const lon_type* operator|(enum_section_type section_type, const lonifier& l);
+    } // namespace elf32
 #ifdef PROJECT_NAMESPACE
 }
 #endif
