@@ -15,9 +15,9 @@ namespace PROJECT_NAMESPACE
             m_header_raw                     = new header_raw(bytes.get());
         }
 
-        elf32_offset header::get_program_header_table_offset() const
+        elf32_offset header::get_program_header_table_file_offset() const
         {
-            return m_header_raw->program_header_table_offset;
+            return m_header_raw->program_header_table_file_offset;
         }
 
         elf32_half header::get_program_header_number_of_entries() const
@@ -30,9 +30,9 @@ namespace PROJECT_NAMESPACE
             return m_header_raw->program_header_table_entry_size;
         }
 
-        elf32_offset header::get_section_header_table_offset() const
+        elf32_offset header::get_section_header_table_file_offset() const
         {
-            return m_header_raw->section_header_table_offset;
+            return m_header_raw->section_header_table_file_offset;
         }
 
         elf32_half header::get_section_header_table_number_of_entries() const
@@ -60,8 +60,8 @@ namespace PROJECT_NAMESPACE
 
             lo->set_key("Version", header.m_header_raw->version | l);
             lo->set_key("Entry point", header.m_header_raw->entry_point | l);
-            lo->set_key("Program-header offset", header.m_header_raw->program_header_table_offset | l);
-            lo->set_key("Section-header offset", header.m_header_raw->section_header_table_offset | l);
+            lo->set_key("Program-header offset", header.m_header_raw->program_header_table_file_offset | l);
+            lo->set_key("Section-header offset", header.m_header_raw->section_header_table_file_offset | l);
 
             // TODO: implement elf-header flags
             // lo->set_key("Flags: ")

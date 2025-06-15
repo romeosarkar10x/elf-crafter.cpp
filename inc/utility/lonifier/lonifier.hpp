@@ -1,6 +1,7 @@
 #ifndef ELF_CRAFTER_LONIFIER_HPP
 #define ELF_CRAFTER_LONIFIER_HPP
 
+#include <sstream>
 #include <string>
 
 #include "config.hpp"
@@ -22,10 +23,17 @@ namespace PROJECT_NAMESPACE
         lonifier();
 
         template <typename T>
-            requires std::is_fundamental_v<T>
-        friend const lon_type* operator|(const T& t, const lonifier& l)
+            requires std::is_fundamental_v<std::remove_cvref_t<T>>
+        friend const lon_type* operator|(T&& t, const lonifier& l)
         {
-            return new lon_string(std::to_string(t));
+            return new lon_string(std::to_string(std::forward<T>(t)));
+        }
+
+        template <typename T> friend const lon_type* operator|(T* t, const lonifier& l)
+        {
+            std::ostringstream oss;
+            oss << std::hex << t;
+            return new lon_string(oss.str());
         }
 
         friend const lon_type* operator|(const std::string& s, const lonifier& l);

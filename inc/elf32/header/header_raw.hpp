@@ -60,8 +60,8 @@ namespace PROJECT_NAMESPACE
 
             elf32_address entry_point;
 
-            elf32_offset program_header_table_offset;
-            elf32_offset section_header_table_offset;
+            elf32_offset program_header_table_file_offset;
+            elf32_offset section_header_table_file_offset;
 
             elf32_word flags;
 

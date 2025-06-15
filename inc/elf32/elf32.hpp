@@ -25,19 +25,19 @@ namespace PROJECT_NAMESPACE
             void write_file();
             void write_file(const char* pathname);
 
+            /*
             const std::vector<section>& get_sections(enum_section_type section_type);
             const section&              get_section(enum_section_type, std::size_t index) const;
+            */
 
             void create_new_section();
             void delete_section(enum_section_type section_type, std::size_t index);
 
-            const std::vector<symbol_table>& get_symbol_tables() const;
-            const std::vector<string_table>& get_string_tables() const;
-
         private:
-            file                                              m_file;
-            header                                            m_header;
-            std::map<enum_section_type, std::vector<section>> m_sections;
+            file                                               m_file;
+            header                                             m_header;
+            std::map<enum_section_type, std::vector<section*>> m_sections;
+            std::vector<symbol*>                               m_symbols;
         };
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE

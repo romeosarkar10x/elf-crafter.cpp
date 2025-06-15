@@ -1,5 +1,5 @@
-#ifndef ELF_CRAFTER_SYMBOL_TABLE_HPP
-#define ELF_CRAFTER_SYMBOL_TABLE_HPP
+/*
+#pragma once
 
 #include <vector>
 
@@ -11,6 +11,7 @@
 namespace PROJECT_NAMESPACE
 {
 #endif
+
     namespace elf32
     {
         struct symbol_table : public section
@@ -18,12 +19,11 @@ namespace PROJECT_NAMESPACE
             symbol_table_entry_raw at(elf32_offset index);
 
         private:
-            std::vector<symbol_table_entry_raw> m_entries;
         };
 
     } // namespace elf32
+
 #ifdef PROJECT_NAMESPACE
 }
 #endif
-
-#endif
+*/

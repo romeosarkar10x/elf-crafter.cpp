@@ -1,5 +1,4 @@
-#ifndef ELF_CRAFTER_ELF32_TYPE_HPP
-#define ELF_CRAFTER_ELF32_TYPE_HPP
+#pragma once
 
 #include <cstdint>
 
@@ -15,9 +14,9 @@ namespace PROJECT_NAMESPACE
     {
         // Wrapper around uint32_t (for better customization)
 
-        template <typename BASE> struct crtp
+        template <typename DERIVED> struct crtp
         {
-            friend const lon_type* operator|(const BASE& address, const lonifier& l);
+            friend const lon_type* operator|(const DERIVED& derived, const lonifier& l);
         };
 
         template <typename T> struct decorator
@@ -39,25 +38,30 @@ namespace PROJECT_NAMESPACE
                 return *this;
             }
 
-            friend constexpr decorator operator+(const decorator& a, const decorator& b)
-            {
-                return elf32_address(a.value + b.value);
-            }
+            friend constexpr decorator operator+(const decorator& a, const decorator& b) { return (a.value + b.value); }
 
             T value;
             using type = T;
         };
 
         struct elf32_address : public decorator<uint32_t>, public crtp<elf32_address>
-        {};
+        {
+            using decorator<uint32_t>::decorator;
+        };
         struct elf32_offset : public decorator<uint32_t>, public crtp<elf32_offset>
-        {};
+        {
+            using decorator<uint32_t>::decorator;
+        };
         struct elf32_half : public decorator<uint16_t>, public crtp<elf32_half>
-        {};
+        {
+            using decorator<uint16_t>::decorator;
+        };
         struct elf32_signed_word : public decorator<int32_t>, public crtp<elf32_signed_word>
         {};
         struct elf32_word : public decorator<uint32_t>, public crtp<elf32_word>
-        {};
+        {
+            using decorator<uint32_t>::decorator;
+        };
         // typedef uint32_t elf32_address;
         // typedef uint32_t elf32_offset;
 
@@ -67,6 +71,4 @@ namespace PROJECT_NAMESPACE
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE
 } // namespace elf_crafter
-#endif
-
 #endif

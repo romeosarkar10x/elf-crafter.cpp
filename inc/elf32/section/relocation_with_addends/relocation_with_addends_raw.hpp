@@ -1,5 +1,4 @@
-#ifndef ELF_CRAFTER_RELOCATION_ENTRY_HPP
-#define ELF_CRAFTER_RELOCATION_ENTRY_HPP
+#pragma once
 
 #include "config.hpp"
 #include "elf32/type.hpp"
@@ -8,16 +7,10 @@
 namespace PROJECT_NAMESPACE
 {
 #endif
+
     namespace elf32
     {
-        struct relocation
-        {
-        private:
-            elf32_address offset;
-            elf32_word    info;
-        };
-
-        struct relocation_with_addend
+        struct relocation_with_addends_raw
         {
         private:
             elf32_address     offset;
@@ -26,8 +19,7 @@ namespace PROJECT_NAMESPACE
         };
 
     } // namespace elf32
+
 #ifdef PROJECT_NAMESPACE
 }
-#endif
-
 #endif

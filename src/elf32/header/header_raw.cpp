@@ -148,8 +148,8 @@ namespace PROJECT_NAMESPACE
             version     = h_raw.version;
             entry_point = h_raw.entry_point;
 
-            program_header_table_offset = h_raw.program_header_table_offset;
-            section_header_table_offset = h_raw.section_header_table_offset;
+            program_header_table_file_offset = h_raw.program_header_table_file_offset;
+            section_header_table_file_offset = h_raw.section_header_table_file_offset;
 
             flags = h_raw.flags;
 

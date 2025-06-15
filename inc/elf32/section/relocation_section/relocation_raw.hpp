@@ -1,7 +1,7 @@
-#ifndef ELF_CRAFTER_ELF32_FORWARD_DECLARATION_HPP
-#define ELF_CRAFTER_ELF32_FORWARD_DECLARATION_HPP
+#pragma once
 
 #include "config.hpp"
+#include "elf32/type.hpp"
 
 #ifdef PROJECT_NAMESPACE
 namespace PROJECT_NAMESPACE
@@ -10,11 +10,13 @@ namespace PROJECT_NAMESPACE
 
     namespace elf32
     {
-        struct elf32;
-        struct section;
+        struct relocation_raw
+        {
+            elf32_address offset;
+            elf32_word    info;
+        };
     } // namespace elf32
 
 #ifdef PROJECT_NAMESPACE
 }
-#endif
 #endif

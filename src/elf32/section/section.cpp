@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <elf32/section/section.hpp>
 
 #ifdef PROJECT_NAMESPACE
@@ -23,10 +21,16 @@ namespace PROJECT_NAMESPACE
               m_bytes{std::move(bytes)}
         {}
 
+        void section::add_symbol(symbol* s)
+        {
+            m_symbols.push_back(s);
+        }
+
         const lon_type* operator|(const section& s, const lonifier& l)
         {
             lon_object* lo = new lon_object;
 
+            lo->set_key("Pointer", &s | l);
             lo->set_key("Name", new lon_string(s.m_name));
             lo->set_key("Type", s.m_type | l);
             lo->set_key("Address", s.m_address | l);
