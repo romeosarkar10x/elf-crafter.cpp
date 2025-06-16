@@ -14,31 +14,31 @@ namespace PROJECT_NAMESPACE
 #endif
     namespace elf32
     {
-        struct section_header_raw
+        struct section_attribute_flags
         {
-            struct section_attribute_flags
+            enum struct enum_section_attribute : elf32_word::type
             {
-                enum struct enum_section_attribute : elf32_word::type
-                {
-                    WRITEABLE                         = 1u,
-                    ALLOC                             = 2u,
-                    EXECUTABLE                        = 4u,
-                    PROCESSOR_SPECIFIC_SEMANTICS_MASK = 0xf0000000,
-                };
-
-                friend const lon_type* operator|(enum_section_attribute section_attribute, const lonifier& l);
-
-                constexpr section_attribute_flags() : m_flags(0u) {}
-
-                bool is_set(enum_section_attribute attribute) const;
-                void set(enum_section_attribute attribute);
-
-                friend const lon_type* operator|(const section_attribute_flags& flags, const lonifier& l);
-
-            private:
-                elf32_word m_flags;
+                WRITEABLE                         = 1u,
+                ALLOC                             = 2u,
+                EXECUTABLE                        = 4u,
+                PROCESSOR_SPECIFIC_SEMANTICS_MASK = 0xf0000000,
             };
 
+            friend const lon_type* operator|(enum_section_attribute section_attribute, const lonifier& l);
+
+            constexpr section_attribute_flags() {}
+
+            bool is_set(enum_section_attribute attribute) const;
+            void set(enum_section_attribute attribute);
+
+            friend const lon_type* operator|(const section_attribute_flags& flags, const lonifier& l);
+
+        private:
+            elf32_word m_flags = 0;
+        };
+
+        struct section_header_raw
+        {
             constexpr section_header_raw()
                 : index_section_name(0u),
                   section_type(enum_section_type::NULL_TYPE),

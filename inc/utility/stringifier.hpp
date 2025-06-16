@@ -33,8 +33,9 @@ namespace PROJECT_NAMESPACE
         }
 
     private:
-        uint16_t          m_lon_indent_width    = 4u;
-        const char* const m_box_characters[11u] = {"│", "─", "┌", "┐", "└", "┘", "┬", "├", "┤", "┴", "┼"};
+        uint16_t m_lon_indent_width = 4u;
+        // const char* const m_box_characters[11u] = {"│", "─", "┌", "┐", "└", "┘", "┬", "├", "┤", "┴", "┼"};
+        const char* const m_box_characters[11u] = {"│", "━", "┍", "┑", "┕", "┙", "┯", "┝", "┥", "┷", "┿"};
 
         mutable uint16_t m_depth = 0u;
     };

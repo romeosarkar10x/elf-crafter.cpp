@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <elf32/header/header.hpp>
+#include <elf32/section/relocation/relocation.hpp>
 #include <elf32/section/string_table/string_table.hpp>
 #include <elf32/section/symbol_table/symbol_table.hpp>
 #include <utility/file.hpp>
@@ -38,6 +39,7 @@ namespace PROJECT_NAMESPACE
             header                                             m_header;
             std::map<enum_section_type, std::vector<section*>> m_sections;
             std::vector<symbol*>                               m_symbols;
+            std::vector<relocation*>                           m_relocations;
         };
     } // namespace elf32
 #ifdef PROJECT_NAMESPACE

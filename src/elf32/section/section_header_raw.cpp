@@ -11,7 +11,7 @@ namespace PROJECT_NAMESPACE
 
     namespace elf32
     {
-        bool section_header_raw::section_attribute_flags::is_set(const enum_section_attribute section_attribute) const
+        bool section_attribute_flags::is_set(const enum_section_attribute section_attribute) const
         {
             return (
                 (m_flags.value & static_cast<std::underlying_type_t<enum_section_attribute>>(section_attribute)) != 0
@@ -28,6 +28,7 @@ namespace PROJECT_NAMESPACE
 
             index_section_name = section_header.index_section_name;
             section_type       = section_header.section_type;
+            flags              = section_header.flags;
             address            = section_header.address;
             file_offset        = section_header.file_offset;
             size               = section_header.size;
@@ -38,18 +39,17 @@ namespace PROJECT_NAMESPACE
         }
 
         const lon_type* operator|(
-            const section_header_raw::section_attribute_flags::enum_section_attribute section_attribute,
-            const lonifier&                                                           l
+            const section_attribute_flags::enum_section_attribute section_attribute, const lonifier& l
         )
         {
             switch (section_attribute) {
-            case section_header_raw::section_attribute_flags::enum_section_attribute::WRITEABLE:
+            case section_attribute_flags::enum_section_attribute::WRITEABLE:
                 return new lon_string("Writeable");
 
-            case section_header_raw::section_attribute_flags::enum_section_attribute::ALLOC:
+            case section_attribute_flags::enum_section_attribute::ALLOC:
                 return new lon_string("Alloc");
 
-            case section_header_raw::section_attribute_flags::enum_section_attribute::EXECUTABLE:
+            case section_attribute_flags::enum_section_attribute::EXECUTABLE:
                 return new lon_string("Executable");
 
             default:
@@ -59,31 +59,23 @@ namespace PROJECT_NAMESPACE
             throw std::runtime_error("Invalid `section_attribute`");
         }
 
-        const lon_type* operator|(
-            const section_header_raw::section_attribute_flags& section_attributes, const lonifier& l
-        )
+        const lon_type* operator|(const section_attribute_flags& section_attributes, const lonifier& l)
         {
             std::ostringstream oss;
 
-            if (section_attributes.is_set(section_header_raw::section_attribute_flags::enum_section_attribute::WRITEABLE
-                )) {
+            if (section_attributes.is_set(section_attribute_flags::enum_section_attribute::WRITEABLE)) {
                 oss << (oss.str().empty() ? "" : " ")
-                    << (section_header_raw::section_attribute_flags::enum_section_attribute::WRITEABLE | lonifier() |
-                        stringifier());
+                    << (section_attribute_flags::enum_section_attribute::WRITEABLE | lonifier() | stringifier());
             }
 
-            if (section_attributes.is_set(section_header_raw::section_attribute_flags::enum_section_attribute::ALLOC)) {
+            if (section_attributes.is_set(section_attribute_flags::enum_section_attribute::ALLOC)) {
                 oss << (oss.str().empty() ? "" : " ")
-                    << (section_header_raw::section_attribute_flags::enum_section_attribute::ALLOC | lonifier() |
-                        stringifier());
+                    << (section_attribute_flags::enum_section_attribute::ALLOC | lonifier() | stringifier());
             }
 
-            if (section_attributes.is_set(
-                    section_header_raw::section_attribute_flags::enum_section_attribute::EXECUTABLE
-                )) {
+            if (section_attributes.is_set(section_attribute_flags::enum_section_attribute::EXECUTABLE)) {
                 oss << (oss.str().empty() ? "" : " ")
-                    << (section_header_raw::section_attribute_flags::enum_section_attribute::EXECUTABLE | lonifier() |
-                        stringifier());
+                    << (section_attribute_flags::enum_section_attribute::EXECUTABLE | lonifier() | stringifier());
             }
 
             if (oss.str().empty()) {

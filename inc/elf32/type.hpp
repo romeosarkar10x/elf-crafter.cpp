@@ -57,7 +57,9 @@ namespace PROJECT_NAMESPACE
             using decorator<uint16_t>::decorator;
         };
         struct elf32_signed_word : public decorator<int32_t>, public crtp<elf32_signed_word>
-        {};
+        {
+            using decorator<int32_t>::decorator;
+        };
         struct elf32_word : public decorator<uint32_t>, public crtp<elf32_word>
         {
             using decorator<uint32_t>::decorator;

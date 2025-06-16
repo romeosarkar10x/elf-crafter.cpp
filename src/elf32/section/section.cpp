@@ -10,7 +10,8 @@ namespace PROJECT_NAMESPACE
         section::section() {}
         section::section(
             elf32* elf, const enum_section_type type, const char* const name, const elf32_address address,
-            const elf32_word address_alignment, const elf32_word size, std::unique_ptr<std::byte> bytes
+            const elf32_word address_alignment, const elf32_word size, section_attribute_flags flags,
+            std::unique_ptr<std::byte> bytes
         )
             : m_elf{elf},
               m_type{type},
@@ -18,6 +19,7 @@ namespace PROJECT_NAMESPACE
               m_address{address},
               m_address_alignment{address_alignment},
               m_size{size},
+              m_flags{flags},
               m_bytes{std::move(bytes)}
         {}
 
@@ -36,6 +38,7 @@ namespace PROJECT_NAMESPACE
             lo->set_key("Address", s.m_address | l);
             lo->set_key("Address alignment", s.m_address_alignment | l);
             lo->set_key("Size", s.m_size | l);
+            lo->set_key("Flags", s.m_flags | l);
             lo->set_key("Bytes", new lon_bytes(s.m_bytes.get(), s.m_size));
 
             return lo;

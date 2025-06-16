@@ -36,6 +36,11 @@ namespace PROJECT_NAMESPACE
             oss << word.value;
             return new lon_string(oss.str());
         }
+
+        const lon_type* operator|(const elf32_signed_word& signed_word, const lonifier& l)
+        {
+            return new lon_string(std::to_string(signed_word.value));
+        }
     } // namespace elf32
 
 #ifdef PROJECT_NAMESPACE
