@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include <elf32/elf32.hpp>
+#include <elf32/program/program_header_raw.hpp>
 #include <elf32/section/relocation/relocation_raw.hpp>
 #include <elf32/section/relocation/relocation_with_addends_raw.hpp>
 #include <elf32/section/section.hpp>
@@ -81,7 +82,13 @@ namespace PROJECT_NAMESPACE
                 section_header_table_number_of_entries
             );
 
+            std::vector<std::vector<std::size_t>> symbol_table_raw_indexes_to_symbols_indexes_jump_table(
+                section_header_table_number_of_entries
+            );
+
             std::vector<std::vector<symbol*>> symbols_vector;
+
+            // TODO: handle skipped relocations!
 
             {
                 for (size_t index = 0u; const section_header_raw& section_header : section_headers) {
@@ -123,25 +130,29 @@ namespace PROJECT_NAMESPACE
 
                     case enum_section_type::SYMBOL_TABLE:
                     {
-                        section_header_raw_indexes_to_symbols_vector_indexes_jump_table[index] = symbols_vector.size();
-                        symbols_vector.emplace_back();
-
                         const auto symbol_table_name_string_table = get_string_table(section_header.link_section_index);
 
-                        const size_t symbol_table_file_offset       = section_header.file_offset;
-                        const size_t symbol_table_size              = section_header.size;
-                        const size_t symbol_table_entry_size        = section_header.entry_size;
-                        const size_t symbol_table_number_of_entries = symbol_table_size / symbol_table_entry_size;
+                        const size_t file_offset       = section_header.file_offset;
+                        const size_t size              = section_header.size;
+                        const size_t entry_size        = section_header.entry_size;
+                        const size_t number_of_entries = size / entry_size;
 
-                        auto bytes = m_file.read(symbol_table_size, symbol_table_file_offset);
+                        section_header_raw_indexes_to_symbols_vector_indexes_jump_table[index] = symbols_vector.size();
+                        symbols_vector.emplace_back();
+                        symbol_table_raw_indexes_to_symbols_indexes_jump_table[index] = std::vector<std::size_t>(
+                            number_of_entries
+                        );
+
+                        auto bytes = m_file.read(size, file_offset);
 
                         const symbol_table_entry_raw* symbol_table = reinterpret_cast<const symbol_table_entry_raw*>(
                             bytes.get()
                         );
 
                         {
-                            const symbol_table_entry_raw* begin = symbol_table + 1u;
-                            const symbol_table_entry_raw* end   = symbol_table + symbol_table_number_of_entries;
+                            size_t                        symbol_table_index = 1u;
+                            const symbol_table_entry_raw* begin              = symbol_table + 1u;
+                            const symbol_table_entry_raw* end                = symbol_table + number_of_entries;
 
                             while (begin != end) {
                                 symbol* s = nullptr;
@@ -170,6 +181,8 @@ namespace PROJECT_NAMESPACE
                                     );
                                 }
 
+                                symbol_table_raw_indexes_to_symbols_indexes_jump_table[index][symbol_table_index] =
+                                    symbols_vector.back().size();
                                 symbols_vector.back().push_back(s);
 
                                 if (enum_special_section_indexes::RESERVED_LOW <= begin->section_header_index &&
@@ -183,6 +196,7 @@ namespace PROJECT_NAMESPACE
                                                      [begin->section_header_index]]
                                             ->add_symbol(s);
                                         m_symbols.push_back(s);
+
                                         section_header_raw_indexes_to_section_indexes_jump_table[index] = sections.size(
                                                                                                           ) -
                                                                                                           1u;
@@ -190,6 +204,7 @@ namespace PROJECT_NAMESPACE
                                 }
 
                                 begin++;
+                                symbol_table_index++;
                             }
                         }
 
@@ -207,6 +222,13 @@ namespace PROJECT_NAMESPACE
                         const size_t entry_size        = section_header.entry_size;
                         const size_t number_of_entries = size / entry_size;
 
+                        auto     symbol_table_section_header_index = section_header.link_section_index;
+                        auto     relocation_section_header_index   = section_header.info;
+                        section* relocation_section                = sections
+                            [section_header_raw_indexes_to_section_indexes_jump_table[relocation_section_header_index]];
+                        auto& symbols = symbols_vector[section_header_raw_indexes_to_symbols_vector_indexes_jump_table
+                                                           [symbol_table_section_header_index]];
+
                         auto bytes = m_file.read(size, file_offset);
 
                         if (section_header.section_type == enum_section_type::RELOCATION) {
@@ -217,14 +239,12 @@ namespace PROJECT_NAMESPACE
                                 const relocation_raw* end   = table + number_of_entries;
 
                                 while (begin != end) {
-                                    auto symbol_table_section_index = begin->info.symbol_table_index;
+                                    auto symbol_table_index = begin->info.symbol_table_index;
 
                                     relocation* r = new relocation(
-                                        sections[section_header_raw_indexes_to_section_indexes_jump_table[section_header
-                                                                                                              .info]],
-                                        symbols_vector[section_header_raw_indexes_to_symbols_vector_indexes_jump_table
-                                                           [section_header.link_section_index]]
-                                                      [begin->info.symbol_table_index],
+                                        relocation_section,
+                                        symbols[symbol_table_raw_indexes_to_symbols_indexes_jump_table
+                                                    [symbol_table_section_header_index][symbol_table_index]],
                                         begin->offset, 0, begin->info.type
                                     );
 
@@ -292,6 +312,29 @@ namespace PROJECT_NAMESPACE
                 for (auto&& [s, index] : skipped_symbols) {
                     sections[section_header_raw_indexes_to_section_indexes_jump_table[index]]->add_symbol(s);
                     m_symbols.push_back(s);
+                }
+            }
+
+            {
+                // Parse program-header
+                size_t number_of_entries = m_header.get_program_header_table_number_of_entries();
+                size_t entry_size        = m_header.get_program_header_table_entry_size();
+                size_t file_offset       = m_header.get_program_header_table_file_offset();
+
+                const auto bytes = m_file.read(entry_size * number_of_entries, file_offset);
+
+                const program_header_raw* program_header_table = reinterpret_cast<const program_header_raw*>(bytes.get()
+                );
+
+                {
+                    const program_header_raw* begin = program_header_table;
+                    const program_header_raw* end   = begin + number_of_entries;
+
+                    while (begin != end) {
+                        std::cout << std::hex << static_cast<uint32_t>(begin->segment_type) << std::endl;
+                        std::cout << "PROGRAM_HEADER_RAW" << (*begin | lonifier() | stringifier()) << std::endl;
+                        begin++;
+                    }
                 }
             }
 

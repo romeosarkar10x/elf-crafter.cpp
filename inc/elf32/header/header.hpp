@@ -20,7 +20,7 @@ namespace PROJECT_NAMESPACE
             header(file& f);
 
             elf32_offset get_program_header_table_file_offset() const;
-            elf32_half   get_program_header_number_of_entries() const;
+            elf32_half   get_program_header_table_number_of_entries() const;
             elf32_half   get_program_header_table_entry_size() const;
 
             elf32_offset get_section_header_table_file_offset() const;

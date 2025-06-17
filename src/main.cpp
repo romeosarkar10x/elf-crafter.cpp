@@ -6,9 +6,13 @@
 int main()
 {
     using namespace elf_crafter;
-    elf_crafter::elf32::elf32 elf32("temp/hello.o");
+    elf_crafter::elf32::elf32 elf32("temp/test/greet/greet.out");
 
     elf32.close_file();
+
+    /*
+    elf32.write_file("temp/hello_mod.o");
+    */
 
     /*
     lon_string s("hello_world");
